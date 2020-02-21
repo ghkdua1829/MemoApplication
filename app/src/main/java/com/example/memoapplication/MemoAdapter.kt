@@ -1,25 +1,42 @@
 package com.example.memoapplication
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.memoapplication.data.model.Memo
+import com.example.memoapplication.databinding.ItemMemoBinding
 
 class MemoAdapter() : RecyclerView.Adapter<MemoAdapter.MemoViewHolder>() {
+    private val memoData: ArrayList<Memo> = ArrayList();
+
+    fun setMemoData(newMemoData: List<Memo>) {
+        with(memoData) {
+            clear()
+            addAll(newMemoData)
+        }
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemoViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val binding: ItemMemoBinding =
+            ItemMemoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MemoViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return memoData.size
     }
 
     override fun onBindViewHolder(holder: MemoViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        holder.bind(memoData[position])
     }
 
-    class MemoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MemoViewHolder(private val memoBinding: ItemMemoBinding) :
+        RecyclerView.ViewHolder(memoBinding.root) {
 
+        fun bind(memo: Memo) {
+            memoBinding.memo = memo
+        }
     }
 
 }
